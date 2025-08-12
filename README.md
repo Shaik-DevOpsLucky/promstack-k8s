@@ -1,55 +1,54 @@
-# promstack-k8s
 # Prometheus & Grafana Setup for UAT-Bastion Server
 
-This guide documents the steps to set up **Prometheus** and **Grafana** on the **UAT Bastion Server** by replicating configurations from the **Production Bastion Server**.
+This guide provides the steps to set up **Prometheus** and **Grafana** on the **UAT Bastion Server** by replicating configuration files from the **Production Bastion Server**.
 
 ---
 
-## Step 1: Copy Required Files from Production Bastion to UAT Bastion
+## Step 1: Copy Required Files from Production to UAT Bastion
 
-**1. Copy monitoring files from the production server:**
-
+### 1. Copy monitoring configuration files
 **Production Path:**
 /root/gitops/apps/kong-prom
 
 pgsql
 Copy
 Edit
-- Copy the content of files in the above path from the **Prod server**.
+- Copy the contents of the files in this directory from the **Prod server**.
 
 **UAT Bastion Path:**
-cd -UAT/promstack
+cd UEM-UAT/promstack
 
 yaml
 Copy
 Edit
-- Create two files in this path and paste the content copied from the **Prod server**.
+- Create two files in this path and paste the copied content from the **Prod server**.
 
 ---
 
-**2. Copy Ingress files for Prometheus & Grafana:**
-
+### 2. Copy ingress files for Prometheus & Grafana
 **Production Path:**
 cd /root/gitops/apps/promstack
 
 markdown
 Copy
 Edit
-- Copy the content of `prometheus-ingress.yaml` and `grafana-ingress.yaml` from the **Prod server**.
+- Copy the content of:
+  - `prometheus-ingress.yaml`
+  - `grafana-ingress.yaml`
 
 **UAT Bastion Path:**
-cd -UAT/promstack
+cd UEM-UAT/promstack
 
 yaml
 Copy
 Edit
-- Create the same ingress files (`prometheus-ingress.yaml` and `grafana-ingress.yaml`) and paste the copied content.
+- Create these same files and paste the content copied from the **Prod server**.
 
 ---
 
 ## Step 2: Install Prometheus Stack via Helm
 
-From the `-UAT/promstack` path, go two levels up:
+From the `UEM-UAT/promstack` path, go two levels up:
 ```bash
 cd ../..
 Add Prometheus Helm repository:
@@ -79,7 +78,7 @@ Copy
 Edit
 kubectl get secret prometheus-grafana -n monitoring \
   -o jsonpath="{.data.admin-password}" | base64 --decode
-Apply Grafana Ingress:
+Apply Grafana ingress:
 
 bash
 Copy
@@ -92,8 +91,8 @@ Create a custom values file:
 bash
 Copy
 Edit
-cd -UAT/promstack
-nano pvc-values.yaml
+cd UEM-UAT/promstack
+nano custom-values.yaml
 Sample custom-values.yaml content:
 
 yaml
@@ -143,14 +142,14 @@ Ensure you have the required kubeconfig and permissions to apply these changes.
 
 The storage size and storage class can be modified in custom-values.yaml to match your environment.
 
-The ingress configurations must be updated to reflect the correct domain names for UAT.
+Update the ingress configurations with the correct UAT domain names before applying.
 
-yaml
+pgsql
 Copy
 Edit
 
 ---
 
-If you want, I can also **add diagrams** showing the setup flow between **Prod Bastion → UAT Bastion → Kuber
+If you copy and paste **this whole block** into a `README.md` file, it will be perfectly formatted on GitHub with code blocks, headings, and bullet points all in place.  
 
- 
+Do you want me to also **add a diagram** showing the flow from **Prod Bastion → UAT Bastion → Kubernetes Moni
