@@ -93,7 +93,7 @@ bash
 Copy
 Edit
 cd UEM-UAT/promstack
-nano custom-values.yaml
+nano pvc-values.yaml
 Sample custom-values.yaml content:
 
 yaml
