@@ -52,52 +52,40 @@ From the `UEM-UAT/promstack` path, go two levels up:
 ```bash
 cd ../..
 Add Prometheus Helm repository:
-
-bash
-Copy
-Edit
+----
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 Install Prometheus Stack:
 
-bash
-Copy
-Edit
+Install Prometheus Stack:
+-----
 helm install prometheus prometheus-community/kube-prometheus-stack \
   --namespace monitoring --create-namespace
 Get Grafana service details:
 
-bash
-Copy
-Edit
+Get Grafana service details:
+----
 kubectl get svc -n monitoring prometheus-grafana
 Retrieve Grafana admin password:
 
-bash
-Copy
-Edit
+Retrieve Grafana admin password:
+----
 kubectl get secret prometheus-grafana -n monitoring \
   -o jsonpath="{.data.admin-password}" | base64 --decode
 Apply Grafana ingress:
 
-bash
-Copy
-Edit
+Apply Grafana ingress:
+-----
 cd /root/gitops/apps/promstack
 kubectl apply -f grafana-ingress.yaml -n monitoring
 Step 3: Configure Persistent Volume Claims (PVC)
+----
 Create a custom values file:
-
-bash
-Copy
-Edit
+------
 cd UEM-UAT/promstack
-nano custom-values.yaml
+nano pvc-values.yaml
 Sample custom-values.yaml content:
 
-yaml
-Copy
-Edit
 prometheus:
   prometheusSpec:
     storageSpec:
@@ -117,9 +105,8 @@ grafana:
     storageClassName: gp2
 Upgrade Helm release with PVC settings:
 
-bash
-Copy
-Edit
+Upgrade Helm release with PVC settings:
+----
 helm upgrade prometheus prometheus-community/kube-prometheus-stack \
   -f custom-values.yaml \
   -n monitoring
