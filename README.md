@@ -18,7 +18,7 @@ Edit
 - Copy the content of files in the above path from the **Prod server**.
 
 **UAT Bastion Path:**
-cd UEM-UAT/promstack
+cd -UAT/promstack
 
 yaml
 Copy
@@ -38,7 +38,7 @@ Edit
 - Copy the content of `prometheus-ingress.yaml` and `grafana-ingress.yaml` from the **Prod server**.
 
 **UAT Bastion Path:**
-cd UEM-UAT/promstack
+cd -UAT/promstack
 
 yaml
 Copy
@@ -49,7 +49,7 @@ Edit
 
 ## Step 2: Install Prometheus Stack via Helm
 
-From the `UEM-UAT/promstack` path, go two levels up:
+From the `-UAT/promstack` path, go two levels up:
 ```bash
 cd ../..
 Add Prometheus Helm repository:
@@ -92,7 +92,7 @@ Create a custom values file:
 bash
 Copy
 Edit
-cd UEM-UAT/promstack
+cd -UAT/promstack
 nano pvc-values.yaml
 Sample custom-values.yaml content:
 
