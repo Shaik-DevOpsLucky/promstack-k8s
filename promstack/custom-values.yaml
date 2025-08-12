@@ -1,0 +1,75 @@
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: gp2
+
+    additionalScrapeConfigs:
+      - job_name: 'blackbox'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        static_configs:
+          - targets:
+              - https://uat-elasticsearch.asseto.ai/
+              - https://uat-login.asseto.ai/auth/
+              - https://uat-konga.asseto.ai/
+              - https://uat-incident.asseto.ai/
+              - https://uat-product.asseto.ai/
+              - https://bold-dev.asseto.ai/
+              - https://dev-bold-bi.asseto.ai/
+              - https://uat-argocd.asseto.ai/
+              - https://uat-app.asseto.ai/
+              - https://uat-prometheus.asseto.ai/
+              - https://uat-monitoring.asseto.ai/
+              - http://43.216.136.33:8080/api/
+              - https://uat-api.asseto.ai/uat-activity-log-service/api/
+              - https://uat-api.asseto.ai/uat-asset-search-service/api/
+              - https://uat-api.asseto.ai/uat-asset-service/api/
+              - https://uat-api.asseto.ai/uat-bca-management-service/api/
+              - https://uat-api.asseto.ai/uat-case-search-service/api/
+              - https://uat-api.asseto.ai/uat-case-service/api/
+              - https://uat-api.asseto.ai/uat-common-service/api/
+              - https://uat-api.asseto.ai/uat-configuration-service/api/
+              - https://uat-api.asseto.ai/uat-eptw-management-service/api/
+              - https://uat-api.asseto.ai/uat-firebase-service/api/
+              - https://uat-api.asseto.ai/uat-inventory-search-service/api/
+              - https://uat-api.asseto.ai/uat-inventory-service/api/
+              - https://uat-api.asseto.ai/uat-iot-device-service/api/
+              - https://uat-api.asseto.ai/uat-job-scheduler/api/
+              - https://uat-api.asseto.ai/uat-mail-service/api/
+              - https://uat-api.asseto.ai/uat-notification-management/api/
+              - https://uat-api.asseto.ai/uat-shift-search-service/api/
+              - https://uat-api.asseto.ai/uat-shift-service/api/
+              - https://uat-api.asseto.ai/uat-user-search-service/api/
+              - https://uat-api.asseto.ai/uat-user-service/api/
+              - https://uat-api.asseto.ai/uat-workflow-service/api/
+              - https://uat-api.asseto.ai/uat-workorder-search-service/api/
+              - https://uat-api.asseto.ai/uat-workorder-service/api/
+              - https://uat-api.asseto.ai/uat-payment-service/api/
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: blackbox-exporter.monitoring.svc.cluster.local:9115
+      - job_name: 'external-vms'
+        static_configs:
+          - targets:
+              - 10.4.5.24:9100
+              - 10.4.0.205:9100
+              - 10.4.0.29:9100
+              - 10.4.5.15:9100
+
+grafana:
+  persistence:
+    enabled: true
+    accessModes: ["ReadWriteOnce"]
+    size: 5Gi
+    storageClassName: gp2
